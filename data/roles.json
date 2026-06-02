@@ -1,0 +1,14 @@
+{
+  "Backend Developer": {
+    "core_skills": ["python", "sql", "git", "apis", "databases"],
+    "bonus_skills": ["fastapi", "docker", "testing"]
+  },
+  "Data Analyst": {
+    "core_skills": ["excel", "sql", "python", "statistics", "data visualization"],
+    "bonus_skills": ["power bi", "tableau", "storytelling"]
+  },
+  "Frontend Developer": {
+    "core_skills": ["html", "css", "javascript", "git", "react"],
+    "bonus_skills": ["typescript", "accessibility", "testing"]
+  }
+}

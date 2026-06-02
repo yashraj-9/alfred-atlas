@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.streamlit/
+memory/user_profile.json
+memory/progress.json

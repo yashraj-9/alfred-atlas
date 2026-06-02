@@ -1,0 +1,5 @@
+[
+  {"title": "Analytics dashboard", "description": "Turn a public dataset into a dashboard and explain three insights.", "roles": ["Data Analyst"]},
+  {"title": "REST API", "description": "Build a documented API with validation and a small database.", "roles": ["Backend Developer"]},
+  {"title": "Responsive portfolio", "description": "Create an accessible responsive site with reusable components.", "roles": ["Frontend Developer"]}
+]
