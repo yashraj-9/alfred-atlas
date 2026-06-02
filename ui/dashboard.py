@@ -1,51 +1,132 @@
+from __future__ import annotations
+
 import streamlit as st
 
-from career.skill_analyzer import normalize_skills
-from core.constants import APP_NAME, APP_TAGLINE
-from core.orchestrator import CareerNavigator
-from llm.gemini_client import GeminiClient
-from ui.coach_page import render_coach
-from ui.opportunities_page import render_recommendations
-from ui.roadmap_page import render_roadmap
+from brain.llm_client import LLMClient
+from brain.orchestrator import CareerNavigator
+
+
+def _render_results(result: dict) -> None:
+    profile = result["profile"]
+    gap = result["gap"]
+    roadmap = result["roadmap"]
+
+    st.subheader(f"{profile['name']}'s path to {profile['target_role']}")
+    score, duration, time = st.columns(3)
+    score.metric("Career readiness", f"{gap['readiness_score']}%")
+    duration.metric("Estimated roadmap", f"{roadmap['estimated_weeks']} weeks")
+    time.metric("Weekly commitment", f"{roadmap['weekly_hours']} hours")
+    st.progress(gap["readiness_score"] / 100)
+
+    left, right = st.columns(2)
+    with left:
+        st.markdown("#### Skills Alfred recognized")
+        st.write(", ".join(skill.title() for skill in gap["matched_skills"]) or "No matching core skills recognized yet.")
+        if gap["developing_skills"]:
+            st.caption("Needs strengthening: " + ", ".join(skill.title() for skill in gap["developing_skills"]))
+    with right:
+        st.markdown("#### Skills to build next")
+        st.write(", ".join(skill.title() for skill in gap["missing_skills"]) or "You have the core skills. Focus on portfolio depth.")
+
+    st.markdown("#### Your learning roadmap")
+    for phase in roadmap["phases"]:
+        with st.expander(f"Weeks {phase['weeks']}: {phase['skill']}", expanded=True):
+            st.caption(phase["status"])
+            st.write(f"**Outcome:** {phase['outcome']}")
+            st.write("**Weekly tasks:**")
+            for task in phase["tasks"]:
+                st.write(f"- {task}")
+            st.write(f"**Evidence to publish:** {phase['proof']}")
+
+    if gap["bonus_skills"]:
+        st.info("Optional skills for later: " + ", ".join(skill.title() for skill in gap["bonus_skills"]))
 
 
 def run_dashboard() -> None:
-    st.set_page_config(page_title=APP_NAME, page_icon="🧭", layout="wide")
-    st.title(APP_NAME)
-    st.caption(APP_TAGLINE)
+    st.set_page_config(page_title="Alfred Atlas", page_icon="AA", layout="wide")
+    st.title("Alfred Atlas")
+    st.caption("Your practical career navigator: assess your skills, find the gaps, and build a roadmap.")
+
     navigator = CareerNavigator()
-    saved = navigator.memory.load_profile()
-    roles = navigator.available_roles()
+    saved = navigator.load_profile()
 
     with st.sidebar:
         st.header("Career profile")
         name = st.text_input("Your name", value=saved.get("name", ""))
-        target = st.selectbox("Target role", roles, index=roles.index(saved["target_role"]) if saved.get("target_role") in roles else 0)
-        skills = st.text_area("Current skills", value=", ".join(saved.get("skills", [])), placeholder="python, sql, excel")
-        weekly_hours = st.slider("Study hours per week", 1, 20, int(saved.get("weekly_hours", 6)))
+        current_status = st.text_input(
+            "Current status",
+            value=saved.get("current_status", ""),
+            placeholder="Example: 2nd-year engineering student",
+        )
+        target_role = st.selectbox(
+            "Target career",
+            navigator.roles(),
+            index=navigator.roles().index(saved["target_role"]) if saved.get("target_role") in navigator.roles() else 0,
+        )
+        skills = st.text_area(
+            "Current skills",
+            value=saved.get("raw_skills", ", ".join(saved.get("skills", []))),
+            placeholder="Example: Python and basic ML, SQL, Excel",
+            help="Write naturally. Alfred recognizes common aliases such as ML, JS, and GitHub.",
+        )
+        interests = st.text_input(
+            "Interests",
+            value=", ".join(saved.get("interests", [])),
+            placeholder="Example: analytics, design, automation",
+        )
+        weekly_hours = st.slider("Hours available per week", 1, 20, int(saved.get("weekly_hours", 6)))
         build = st.button("Build my roadmap", type="primary", use_container_width=True)
+        st.divider()
+        st.markdown("#### Optional AI coach")
+        api_key = st.text_input(
+            "OpenAI API key",
+            type="password",
+            help="Used only for this running session. It is not written to disk.",
+        )
+        model = st.text_input("AI model", value="gpt-5-mini")
+
+    st.markdown("### Turn a career goal into a weekly plan")
+    st.write(
+        "Fill in your profile in the sidebar. Alfred Atlas recognizes your existing "
+        "skills, identifies the highest-impact gaps, and turns them into evidence you can publish."
+    )
 
     if build:
-        profile = {
-            "name": name.strip() or "Explorer",
-            "target_role": target,
-            "skills": normalize_skills(skills),
-            "weekly_hours": weekly_hours,
-        }
-        st.session_state["result"] = navigator.navigate(profile)
+        st.session_state["result"] = navigator.navigate(
+            {
+                "name": name,
+                "current_status": current_status,
+                "target_role": target_role,
+                "skills": skills,
+                "interests": interests,
+                "weekly_hours": weekly_hours,
+            }
+        )
+        st.session_state.pop("coach_review", None)
 
-    result = st.session_state.get("result")
-    if not result:
-        st.info("Complete the sidebar and click **Build my roadmap**.")
+    if "result" in st.session_state:
+        result = st.session_state["result"]
+        _render_results(result)
+        st.markdown("### Ask the AI coach")
+        coach = LLMClient(api_key=api_key, model=model)
+        st.caption(coach.status())
+        question = st.text_input(
+            "What do you want the coach to focus on?",
+            placeholder="Example: I only have one month. What should I prioritize?",
+        )
+        if st.button("Generate personalized coaching"):
+            if not coach.is_configured:
+                st.warning("Add your OpenAI API key in the sidebar first.")
+            else:
+                with st.spinner("Thinking through your plan..."):
+                    try:
+                        st.session_state["coach_review"] = coach.coaching_review(result, question)
+                    except RuntimeError as exc:
+                        st.error(str(exc))
+        if "coach_review" in st.session_state:
+            st.markdown(st.session_state["coach_review"])
     else:
-        st.subheader(f"{result['profile']['name']}'s path to {result['profile']['target_role']}")
-        score, duration = st.columns(2)
-        score.metric("Career readiness", f"{result['readiness']}%")
-        duration.metric("Estimated roadmap", f"{result['roadmap']['estimated_weeks']} weeks")
-        st.progress(result["readiness"] / 100)
-        render_coach(result["readiness"], result["roadmap"]["milestones"][0]["action"])
-        render_roadmap(result["roadmap"])
-        render_recommendations(result["recommendations"])
+        st.info("Start by completing the sidebar, then click **Build my roadmap**.")
 
     st.divider()
-    st.caption(GeminiClient().status())
+    st.caption("Offline analysis works without an API key. AI coaching is optional.")

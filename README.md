@@ -1,29 +1,53 @@
 # Alfred Atlas
 
-Alfred Atlas is an offline-first career navigator. It compares your current
-skills with a target role, calculates a readiness score, creates a weekly
-roadmap, and recommends projects and courses.
+Alfred Atlas is an offline-first career navigator. It takes a target role,
+compares it with a user's current skills, calculates a readiness score, and
+creates a phased learning roadmap.
+
+## Features
+
+- Profile intake with local JSON persistence
+- Built-in career library for common technology and design roles
+- Skill-gap report and readiness score
+- Natural-language skill recognition, including aliases such as `ml`, `js`, and `github`
+- Weekly roadmap with specific outcomes, practice tasks, and portfolio evidence
+- Streamlit dashboard
+- Optional OpenAI-powered personalized coaching review
 
 ## Run locally
 
 ```powershell
+cd alfred-atlas
 python -m pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-No API key is required for the starter version. Add `GEMINI_API_KEY` later if
-you connect the optional client in `llm/gemini_client.py`.
+The app runs without an API key. Profiles are saved locally in
+`memory/user_profile.json`.
 
-## Current features
+To unlock personalized AI coaching, paste an OpenAI API key into the sidebar
+while the app is running. The key is used only for that session and is not
+stored by Alfred Atlas.
 
-- Career-role database loaded from JSON
-- Skill-gap analysis and readiness score
-- Weekly milestones based on available study time
-- Local profile and progress storage
-- Project and course recommendations
-- Streamlit dashboard
+## Project structure
 
-## Planned modules
+```text
+alfred-atlas/
+|-- app.py
+|-- brain/
+|-- memory/
+|-- profile/
+|-- roadmap/
+|-- ui/
+|-- data/
+|-- requirements.txt
+`-- README.md
+```
 
-The repository includes extension points for internships, scholarships, jobs,
-resume checks, GitHub portfolio analysis, coaching, and Gemini-powered advice.
+## Next upgrades
+
+- Add an LLM-backed coach in `brain/llm_client.py`
+- Store milestones and completed tasks
+- Add resume parsing
+- Add curated course and project recommendations
+- Add role recommendations based on interests

@@ -1,1 +1,1 @@
-"""Streamlit interface."""
+"""Dashboard for Alfred Atlas."""

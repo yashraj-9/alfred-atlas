@@ -1,1 +1,1 @@
-"""Local memory stores."""
+"""Local persistence for Alfred Atlas."""
