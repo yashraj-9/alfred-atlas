@@ -1,5 +1,8 @@
 [
   {"title": "Analytics dashboard", "description": "Turn a public dataset into a dashboard and explain three insights.", "roles": ["Data Analyst"]},
+  {"title": "Churn prediction baseline", "description": "Predict customer churn and explain which features matter most.", "roles": ["Data Scientist"]},
+  {"title": "Review sentiment classifier", "description": "Train and evaluate a text classifier on review data, then inspect model mistakes.", "roles": ["Data Scientist"]},
+  {"title": "Image classifier starter", "description": "Build a neural image classifier and compare it with a simpler baseline.", "roles": ["Data Scientist"]},
   {"title": "REST API", "description": "Build a documented API with validation and a small database.", "roles": ["Backend Developer"]},
   {"title": "Responsive portfolio", "description": "Create an accessible responsive site with reusable components.", "roles": ["Frontend Developer"]}
 ]

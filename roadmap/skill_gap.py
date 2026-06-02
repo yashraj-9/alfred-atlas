@@ -10,7 +10,7 @@ ROLE_LIBRARY: dict[str, dict[str, list[str]]] = {
     },
     "Data Scientist": {
         "core": ["python", "sql", "statistics", "machine learning", "data visualization"],
-        "bonus": ["pandas", "scikit-learn", "deep learning"],
+        "bonus": ["pandas", "scikit-learn", "natural language processing", "deep learning"],
     },
     "Frontend Developer": {
         "core": ["html", "css", "javascript", "git", "react"],

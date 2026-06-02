@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Machine Learning",
+    "keywords": ["machine learning", "scikit-learn", "pandas", "feature engineering", "model evaluation"],
+    "prerequisites": ["python", "statistics", "sql"],
+    "why": "Best when you want to predict, classify, or rank outcomes from structured data.",
+    "starter_projects": [
+      "Customer churn prediction baseline",
+      "Loan default risk analysis",
+      "House-price regression walkthrough"
+    ]
+  },
+  {
+    "name": "NLP",
+    "keywords": ["nlp", "natural language processing", "text classification", "tokenization", "transformers"],
+    "prerequisites": ["python", "machine learning", "statistics"],
+    "why": "Best when you want to work with reviews, support tickets, chat logs, search, or summarization.",
+    "starter_projects": [
+      "Sentiment analysis for product reviews",
+      "Support-ticket topic classifier",
+      "Short-text summarization experiment"
+    ]
+  },
+  {
+    "name": "Deep Learning",
+    "keywords": ["deep learning", "neural networks", "pytorch", "tensorflow", "cnn", "rnn"],
+    "prerequisites": ["python", "machine learning", "statistics"],
+    "why": "Best when you are ready to move beyond baseline models into richer representation learning.",
+    "starter_projects": [
+      "Image classifier with transfer learning",
+      "Neural text classifier",
+      "Time-series forecasting baseline"
+    ]
+  }
+]

@@ -1,3 +1,56 @@
 [
-  {"title": "Build a targeted internship list", "description": "Find 10 beginner-friendly openings and track deadlines.", "roles": ["Backend Developer", "Data Analyst", "Frontend Developer"]}
+  {
+    "title": "Data Science Intern - Analytics Product Team",
+    "description": "Best for learners who can analyze tabular data, explain metrics, and build a small predictive model.",
+    "roles": ["Data Scientist", "Data Analyst"],
+    "focus_areas": ["Machine Learning"],
+    "required_skills": ["python", "statistics"],
+    "nice_to_have": ["sql", "scikit-learn", "data visualization"],
+    "application_assets": ["EDA notebook", "baseline model report", "GitHub README"]
+  },
+  {
+    "title": "NLP Research Intern - Text Intelligence",
+    "description": "Best for learners interested in reviews, support tickets, chat logs, search, and text classification.",
+    "roles": ["Data Scientist"],
+    "focus_areas": ["NLP"],
+    "required_skills": ["python", "machine learning"],
+    "nice_to_have": ["natural language processing", "transformers", "statistics"],
+    "application_assets": ["text classifier notebook", "error analysis", "model card"]
+  },
+  {
+    "title": "Deep Learning Intern - Computer Vision",
+    "description": "Best for learners who want neural-network practice and can compare model results honestly.",
+    "roles": ["Data Scientist"],
+    "focus_areas": ["Deep Learning"],
+    "required_skills": ["python", "machine learning"],
+    "nice_to_have": ["deep learning", "pytorch", "tensorflow"],
+    "application_assets": ["image classifier project", "training curves", "limitations note"]
+  },
+  {
+    "title": "Business Intelligence Intern",
+    "description": "Best for learners who enjoy dashboards, SQL, Excel, and explaining trends to non-technical people.",
+    "roles": ["Data Analyst"],
+    "focus_areas": ["Machine Learning"],
+    "required_skills": ["excel", "sql"],
+    "nice_to_have": ["data visualization", "power bi", "storytelling"],
+    "application_assets": ["dashboard screenshot", "SQL queries", "insight memo"]
+  },
+  {
+    "title": "Backend Engineering Intern",
+    "description": "Best for learners who can build APIs, work with databases, and document endpoints clearly.",
+    "roles": ["Backend Developer"],
+    "focus_areas": [],
+    "required_skills": ["python", "git"],
+    "nice_to_have": ["apis", "databases", "fastapi"],
+    "application_assets": ["REST API repo", "endpoint documentation", "test report"]
+  },
+  {
+    "title": "Frontend Engineering Intern",
+    "description": "Best for learners who can build accessible interfaces and explain UI decisions.",
+    "roles": ["Frontend Developer"],
+    "focus_areas": [],
+    "required_skills": ["html", "css", "javascript"],
+    "nice_to_have": ["react", "accessibility", "testing"],
+    "application_assets": ["deployed portfolio", "component screenshots", "accessibility checklist"]
+  }
 ]

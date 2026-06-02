@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Titanic Survival",
+    "domain": "Machine Learning",
+    "task_type": "classification",
+    "difficulty": "beginner",
+    "description": "Structured passenger data for building a first classification pipeline.",
+    "tags": ["python", "pandas", "classification", "feature engineering"]
+  },
+  {
+    "title": "House Prices",
+    "domain": "Machine Learning",
+    "task_type": "regression",
+    "difficulty": "beginner",
+    "description": "Tabular real-estate dataset for feature engineering and baseline regression.",
+    "tags": ["regression", "pandas", "scikit-learn", "eda"]
+  },
+  {
+    "title": "IMDB Reviews",
+    "domain": "NLP",
+    "task_type": "sentiment analysis",
+    "difficulty": "intermediate",
+    "description": "Movie reviews dataset for text preprocessing, vectorization, and sentiment modeling.",
+    "tags": ["nlp", "text classification", "sentiment", "machine learning"]
+  },
+  {
+    "title": "AG News",
+    "domain": "NLP",
+    "task_type": "topic classification",
+    "difficulty": "intermediate",
+    "description": "Short news articles dataset for building a multiclass text classifier.",
+    "tags": ["nlp", "transformers", "classification", "text"]
+  },
+  {
+    "title": "MNIST Digits",
+    "domain": "Deep Learning",
+    "task_type": "image classification",
+    "difficulty": "beginner",
+    "description": "Classic handwritten-digit dataset for neural-network fundamentals.",
+    "tags": ["deep learning", "neural networks", "vision", "pytorch"]
+  },
+  {
+    "title": "CIFAR-10",
+    "domain": "Deep Learning",
+    "task_type": "image classification",
+    "difficulty": "intermediate",
+    "description": "Small image dataset for convolutional-network experiments and transfer learning.",
+    "tags": ["cnn", "computer vision", "deep learning", "tensorflow"]
+  }
+]

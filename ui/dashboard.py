@@ -2,14 +2,18 @@ from __future__ import annotations
 
 import streamlit as st
 
-from brain.llm_client import LLMClient
 from brain.orchestrator import CareerNavigator
+from llm.gemini_client import GeminiClient
 
 
 def _render_results(result: dict) -> None:
     profile = result["profile"]
     gap = result["gap"]
+    focus_areas = result["focus_areas"]
     roadmap = result["roadmap"]
+    recommendations = result["recommendations"]
+    datasets = result["datasets"]
+    model_insights = result["model_insights"]
 
     st.subheader(f"{profile['name']}'s path to {profile['target_role']}")
     score, duration, time = st.columns(3)
@@ -17,6 +21,12 @@ def _render_results(result: dict) -> None:
     duration.metric("Estimated roadmap", f"{roadmap['estimated_weeks']} weeks")
     time.metric("Weekly commitment", f"{roadmap['weekly_hours']} hours")
     st.progress(gap["readiness_score"] / 100)
+    st.info(
+        f"Recommended focus: **{model_insights['recommended_focus']}** "
+        f"({model_insights['confidence']}% confidence). "
+        f"Next capability: **{model_insights['next_capability'].title()}**. "
+        f"Start with: **{model_insights['dataset_start']}**."
+    )
 
     left, right = st.columns(2)
     with left:
@@ -27,6 +37,13 @@ def _render_results(result: dict) -> None:
     with right:
         st.markdown("#### Skills to build next")
         st.write(", ".join(skill.title() for skill in gap["missing_skills"]) or "You have the core skills. Focus on portfolio depth.")
+
+    if focus_areas:
+        st.markdown("#### Suggested specialization tracks")
+        for area in focus_areas:
+            st.write(f"**{area['name']}**: {area['why']}")
+            if area["missing_prerequisites"]:
+                st.caption("Prerequisites to strengthen: " + ", ".join(skill.title() for skill in area["missing_prerequisites"]))
 
     st.markdown("#### Your learning roadmap")
     for phase in roadmap["phases"]:
@@ -40,6 +57,38 @@ def _render_results(result: dict) -> None:
 
     if gap["bonus_skills"]:
         st.info("Optional skills for later: " + ", ".join(skill.title() for skill in gap["bonus_skills"]))
+
+    st.markdown("#### Dataset recommendations")
+    for dataset in datasets:
+        st.write(
+            f"**{dataset['title']}** ({dataset['domain']}, {dataset['difficulty']}): "
+            f"{dataset['description']}"
+        )
+
+    st.markdown("#### Project directions")
+    for item in recommendations["specialization_projects"]:
+        st.write(f"**{item['title']}**: {item['description']}")
+
+    if recommendations["projects"]:
+        st.markdown("#### Recommended portfolio projects")
+        for item in recommendations["projects"]:
+            st.write(f"**{item['title']}**: {item['description']}")
+
+    if recommendations["courses"]:
+        st.markdown("#### Recommended learning paths")
+        for item in recommendations["courses"]:
+            st.write(f"**{item['title']}**: {item['description']}")
+
+    if recommendations["internships"]:
+        st.markdown("#### Internship targets")
+        for item in recommendations["internships"]:
+            fit = item.get("fit", "Match")
+            st.write(f"**{item['title']}** ({fit}): {item['description']}")
+            if item.get("missing_required"):
+                st.caption("Before applying, strengthen: " + ", ".join(skill.title() for skill in item["missing_required"]))
+
+    if recommendations["bonus_skills"]:
+        st.caption("Later-stage bonus skills: " + ", ".join(skill.title() for skill in recommendations["bonus_skills"]))
 
 
 def run_dashboard() -> None:
@@ -77,13 +126,13 @@ def run_dashboard() -> None:
         weekly_hours = st.slider("Hours available per week", 1, 20, int(saved.get("weekly_hours", 6)))
         build = st.button("Build my roadmap", type="primary", use_container_width=True)
         st.divider()
-        st.markdown("#### Optional AI coach")
-        api_key = st.text_input(
-            "OpenAI API key",
+        st.markdown("#### Optional Gemini coach")
+        gemini_key = st.text_input(
+            "Gemini API key",
             type="password",
             help="Used only for this running session. It is not written to disk.",
         )
-        model = st.text_input("AI model", value="gpt-5-mini")
+        model = st.text_input("Gemini model", value="gemini-2.5-flash")
 
     st.markdown("### Turn a career goal into a weekly plan")
     st.write(
@@ -107,16 +156,16 @@ def run_dashboard() -> None:
     if "result" in st.session_state:
         result = st.session_state["result"]
         _render_results(result)
-        st.markdown("### Ask the AI coach")
-        coach = LLMClient(api_key=api_key, model=model)
+        st.markdown("### Ask the Gemini coach")
+        coach = GeminiClient(api_key=gemini_key, model=model)
         st.caption(coach.status())
         question = st.text_input(
             "What do you want the coach to focus on?",
             placeholder="Example: I only have one month. What should I prioritize?",
         )
         if st.button("Generate personalized coaching"):
-            if not coach.is_configured:
-                st.warning("Add your OpenAI API key in the sidebar first.")
+            if not coach.configured:
+                st.warning("Add your Gemini API key in the sidebar first.")
             else:
                 with st.spinner("Thinking through your plan..."):
                     try:
@@ -129,4 +178,4 @@ def run_dashboard() -> None:
         st.info("Start by completing the sidebar, then click **Build my roadmap**.")
 
     st.divider()
-    st.caption("Offline analysis works without an API key. AI coaching is optional.")
+    st.caption("Offline analysis works without an API key. Gemini coaching is optional.")

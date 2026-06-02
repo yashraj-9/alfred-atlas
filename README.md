@@ -10,9 +10,12 @@ creates a phased learning roadmap.
 - Built-in career library for common technology and design roles
 - Skill-gap report and readiness score
 - Natural-language skill recognition, including aliases such as `ml`, `js`, and `github`
+- Local specialization inference for Machine Learning, NLP, and Deep Learning
+- Dataset recommendations matched to your role, skills, and interests
+- Dataset-backed internship matching with fit scoring
 - Weekly roadmap with specific outcomes, practice tasks, and portfolio evidence
 - Streamlit dashboard
-- Optional OpenAI-powered personalized coaching review
+- Optional Gemini-powered personalized coaching review
 
 ## Run locally
 
@@ -25,9 +28,10 @@ python -m streamlit run app.py
 The app runs without an API key. Profiles are saved locally in
 `memory/user_profile.json`.
 
-To unlock personalized AI coaching, paste an OpenAI API key into the sidebar
-while the app is running. The key is used only for that session and is not
-stored by Alfred Atlas.
+To unlock personalized AI coaching, create a Gemini API key in Google AI Studio
+and paste it into the sidebar while the app is running. The key is used only for
+that session and is not stored by Alfred Atlas. You can also set `GEMINI_API_KEY`
+in your terminal before launching Streamlit.
 
 ## Project structure
 

@@ -1,3 +1,6 @@
 [
-  {"title": "Core skill sprint", "description": "Choose one missing core skill and finish a structured beginner course.", "roles": ["Backend Developer", "Data Analyst", "Frontend Developer"]}
+  {"title": "Core skill sprint", "description": "Choose one missing core skill and finish a structured beginner course.", "roles": ["Backend Developer", "Data Analyst", "Frontend Developer"]},
+  {"title": "Applied Machine Learning Foundations", "description": "Focus on model evaluation, feature engineering, and classical ML workflows.", "roles": ["Data Scientist"]},
+  {"title": "NLP with Text Classification", "description": "Learn tokenization, vectorization, and transformer-era text pipelines.", "roles": ["Data Scientist"]},
+  {"title": "Deep Learning Practical Basics", "description": "Build neural-network intuition with training loops, overfitting checks, and baseline comparisons.", "roles": ["Data Scientist"]}
 ]

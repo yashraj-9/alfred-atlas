@@ -24,6 +24,16 @@ SKILL_PLAYBOOK: dict[str, dict[str, Any]] = {
         "tasks": ["Split data into train and test sets", "Build a baseline model", "Compare metrics and describe one limitation"],
         "proof": "A notebook with a baseline model, evaluation table, and improvement notes.",
     },
+    "natural language processing": {
+        "outcome": "Turn raw text into a model-ready feature pipeline and a first text classifier.",
+        "tasks": ["Clean and tokenize text data", "Build a baseline text classifier", "Compare at least two text-representation approaches"],
+        "proof": "A notebook that explains preprocessing decisions, metrics, and error examples.",
+    },
+    "deep learning": {
+        "outcome": "Train and explain a small neural-network baseline without hiding the tradeoffs.",
+        "tasks": ["Use a framework such as PyTorch or TensorFlow", "Train a small neural model", "Compare the neural baseline with a simpler classical model"],
+        "proof": "A notebook or repo with training results, learning curves, and model limitations.",
+    },
     "data visualization": {
         "outcome": "Choose charts that make a useful insight obvious.",
         "tasks": ["Create five chart types", "Remove clutter and improve labels", "Build a one-page insight dashboard"],
@@ -33,6 +43,16 @@ SKILL_PLAYBOOK: dict[str, dict[str, Any]] = {
         "outcome": "Analyze a structured dataset efficiently in a spreadsheet.",
         "tasks": ["Use formulas and lookup functions", "Build a pivot-table summary", "Create a small dashboard"],
         "proof": "A documented workbook with an analysis tab and dashboard tab.",
+    },
+    "pandas": {
+        "outcome": "Manipulate tabular data quickly and reproducibly.",
+        "tasks": ["Practice filtering, grouping, merging, and missing-value handling", "Rebuild one analysis end to end in pandas", "Document the transformation pipeline"],
+        "proof": "A notebook showing raw data, cleaned data, and transformation steps.",
+    },
+    "scikit-learn": {
+        "outcome": "Use scikit-learn to build repeatable modeling pipelines.",
+        "tasks": ["Fit baseline estimators", "Create a preprocessing and modeling pipeline", "Evaluate with appropriate metrics"],
+        "proof": "A notebook with a reusable pipeline and metric comparison table.",
     },
     "git": {
         "outcome": "Use Git to show steady, readable progress on a project.",
@@ -91,12 +111,13 @@ def _playbook(skill: str) -> dict[str, Any]:
     )
 
 
-def generate_roadmap(profile: dict[str, Any], gap: dict[str, Any]) -> dict[str, Any]:
+def generate_roadmap(profile: dict[str, Any], gap: dict[str, Any], focus_areas: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     priorities = gap["priority_skills"]
     weekly_hours = profile["weekly_hours"]
     weeks_per_skill = _weeks_for_skill(weekly_hours)
     phases: list[dict[str, Any]] = []
     current_week = 1
+    focus_label = focus_areas[0]["name"] if focus_areas else gap["target_role"]
 
     for skill in priorities:
         guide = _playbook(skill)
@@ -121,7 +142,11 @@ def generate_roadmap(profile: dict[str, Any], gap: dict[str, Any]) -> dict[str, 
             "skill": "Portfolio Capstone",
             "status": "Turn learning into evidence",
             "outcome": ROLE_CAPSTONES[gap["target_role"]],
-            "tasks": ["Define a narrow problem", "Build the smallest complete version", "Publish the work with a clear README and reflection"],
+            "tasks": [
+                f"Choose one {focus_label} problem that fits your current level",
+                "Build the smallest complete version",
+                "Publish the work with a clear README, results, and reflection",
+            ],
             "proof": "A shareable portfolio link that a recruiter or mentor can review.",
         }
     )
