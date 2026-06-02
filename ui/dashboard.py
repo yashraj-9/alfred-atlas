@@ -83,9 +83,17 @@ def _render_results(result: dict) -> None:
         st.markdown("#### Internship targets")
         for item in recommendations["internships"]:
             fit = item.get("fit", "Match")
-            st.write(f"**{item['title']}** ({fit}): {item['description']}")
+            st.write(f"**{item['title']}** ({fit}, {item['status']}): {item['description']}")
+            st.write(
+                f"Application window: {item['application_start']} to {item['application_deadline']} | "
+                f"Program period: {item['internship_period']}"
+            )
+            st.write(f"Official link: {item['official_url']}")
+            st.caption("Prepare: " + ", ".join(item.get("application_assets", [])))
             if item.get("missing_required"):
                 st.caption("Before applying, strengthen: " + ", ".join(skill.title() for skill in item["missing_required"]))
+            if item.get("status", "").startswith("Closed"):
+                st.caption("Next cycle hint: " + item["next_window_hint"])
 
     if recommendations["bonus_skills"]:
         st.caption("Later-stage bonus skills: " + ", ".join(skill.title() for skill in recommendations["bonus_skills"]))

@@ -27,9 +27,11 @@ class GeminiClient:
         prompt = (
             f"{COACH_SYSTEM_PROMPT}\n\n"
             "Review this career-navigation result. Use the learner's recognized skills, "
-            "dataset recommendations, specialization tracks, and internships. Give a "
-            "specific priority order, a realistic 7-day plan, one dataset-backed project, "
-            "and one internship application strategy. Do not repeat the roadmap mechanically.\n\n"
+            "dataset recommendations, specialization tracks, and real internship programs. "
+            "Give a specific priority order, a realistic 7-day plan, one dataset-backed "
+            "project, and one internship application strategy. Use only internship names, "
+            "windows, and deadlines present in the context. Do not invent programs or dates. "
+            "Do not repeat the roadmap mechanically.\n\n"
             f"Learner context:\n{json.dumps(context, indent=2)}"
         )
         if question.strip():

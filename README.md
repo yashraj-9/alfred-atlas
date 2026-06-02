@@ -12,7 +12,7 @@ creates a phased learning roadmap.
 - Natural-language skill recognition, including aliases such as `ml`, `js`, and `github`
 - Local specialization inference for Machine Learning, NLP, and Deep Learning
 - Dataset recommendations matched to your role, skills, and interests
-- Dataset-backed internship matching with fit scoring
+- Dataset-backed internship matching with real programs such as GSoC, Outreachy, LFX Mentorship, MLH Fellowship, CERN openlab, Mitacs Globalink, and MeitY Digital India
 - Weekly roadmap with specific outcomes, practice tasks, and portfolio evidence
 - Streamlit dashboard
 - Optional Gemini-powered personalized coaching review
@@ -27,6 +27,9 @@ python -m streamlit run app.py
 
 The app runs without an API key. Profiles are saved locally in
 `memory/user_profile.json`.
+
+Internship dates are stored in `data/internships.json`. Deadlines change every
+year, so refresh that dataset before each application season.
 
 To unlock personalized AI coaching, create a Gemini API key in Google AI Studio
 and paste it into the sidebar while the app is running. The key is used only for
