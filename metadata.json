@@ -1,0 +1,6 @@
+{
+  "name": "Alfred Atlas",
+  "description": "An MCP-powered student career navigator. Generates roadmaps, identifies skill gaps, highlights resume fixes, and matches you with internships and projects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
